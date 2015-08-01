@@ -1,0 +1,59 @@
+# We will assume that when we begin running the program there are no inventories of bikes. Bikes can be created by our program. 
+# Each bike has a unique serial. The type of bike is determined by: model, size and color. 
+# Considering the usage, users might want to find data by serial number, or buy a bike according to it's type. 
+
+# Company. I can create a company class. Due to the scope of this project I will not create a company class, but simply assume 1 company. 
+# Data to update: new models, change in cost or weight of a certain model . 
+model dictionary = {model:[catagory, description]   .....}
+type dictionary = {[model ,size]:[weight, cost]   ......}
+optional colors = {'Red', 'Blue', 'Green', 'Yellow'}
+#Constant data
+optional size = {'Small', 'Medium', 'Large', 'ExtraLarge'}
+# Database - should we prepare a seperate database for company, shops and users, or a centralized one? In this case a seperate one.  
+companysInventory = {serial:[model, size, color, weight, cost]    ......}
+#The company has two basic functions. The first is creating a bike. That will be done when a bicycle object is being initialized. The second function is selling a bike. This will be done by the sellRequest function.
+function sellRequest (model, size, color):
+    look for requested bike in inventory. if exist: 1)return to shop approval, and details of bike, 2) reduce bike from inventory. if not, return refusal and send inventory.
+
+# Bicycle
+count = 0
+class Bicycle ():
+    def __init__ (self, modelName, size, color):
+        self.serial = count
+        count ++ 
+        # modelName, size and color can only be of a certain kind, mentioned in company's database.  
+        if modelName in model dictionary: 
+            self.modelName = modelName
+        else: provide model list and request user to chose. 
+        #same proceedure with size and color. 
+        self.size = size
+        self.color = color
+        add entry to inventory
+        
+class Shop ():    
+    sellMargin=0.2
+    inventory = {serial:[model, size, color, weight, cost]    ......}
+    def __init__ (self, name):
+        self.name =name
+    def buyBike (self, modelName, size, color):
+        #We will request sell from company
+        sellRequest(modelName, size, color)
+        if approved add bike to inventory
+        if not present to user companys inventory and allow user to choose a different bike. 
+        call sellRequest fun again with the new requested bike. 
+    profitPerModelDic = {model:profit .......}  
+    function sellRequest (model, size, color):
+    look for requested bike in inventory. if exist: 1)return to customer approval, and details of bike, 2) reduce bike from inventory, and update profit dictionary. if not, return refusal and send inventory.
+        
+    
+class Customer ():
+        def __init__ (self, name, fund):
+        self.name = name
+        self.fund = fund
+        own = {}
+        def buy (modelName, size, color):
+            #We will request sell from shop
+            shop.sellRequest (modelName, size, color)
+            if not present to user shop's inventory and allow user to choose a different bike. 
+            call sellRequest fun again with the new requested bike. 
+        
