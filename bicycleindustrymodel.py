@@ -1,4 +1,4 @@
-import additional.py
+import support
 
 print "Welcome to Bicycle Industry model. We will try to model the Bicycle industry."
 
