@@ -3,6 +3,7 @@ from support import *
 catagories = ["Mountain", "City", "HighWay"]
 optional_sizes = ["XSmall", "Small", "Medium", "Large", "XLarge", "XXLarge"]
 optional_colors = ["White", "Yellow", "Green", "Blue", "Red", "Brown", "Purple", "Gray", "Black"]
+test0 = []
 
 # Main database - 
 # Main dictionary of Bicycle models. 
@@ -22,15 +23,23 @@ def make_model ():
     models[model_name]=[catagory, description, color_selection, size_info]
 
 def sample_model_liberary ():
+    models ['H1'] = ['HighWay', 'Fine, Lights, Stable.', ['Blue', 'Red'], {'Small': [3.0, 1000.0], 'Large': [3.3, 1100.0]}]
+    models ['Mountain 100'] = ['Mountain', 'Good, Shock absorber. ', ['Brown', 'Black'], {'Large': [4.0, 1000.0], 'XXLarge': [4.4, 1100.0]}]
+    models ['M1'] = ['Mountain', 'Fine, Shock absorber.', ['Brown', 'Black'], {'Large': [4.0, 500.0], 'XXLarge': [4.4, 550.0]}]
+    models ['City 100'] = ['City', 'Good, Stable.', ['Yellow', 'Green'], {'XLarge': [3.3, 550.0], 'Medium': [3.0, 500.0]}]
+    models ['C1'] = ['City', 'Fine, Stable.', ['Yellow', 'Green'], {'XLarge': [3.3, 275.0], 'Medium': [3.0, 250.0]}]
+    models ['Highway 100'] = ['HighWay', 'Good, Lights, Stable. ', ['Blue', 'Red'], {'Small': [3.0, 2000.0], 'Large': [3.3, 2200.0]}]
+    """
     models = {
         'H1': ['HighWay', 'Fine, Lights, Stable.', ['Blue', 'Red'], {'Small': [3.0, 1000.0], 'Large': [3.3, 1100.0]}], 
         'Mountain 100': ['Mountain', 'Good, Shock absorber. ', ['Brown', 'Black'], {'Large': [4.0, 1000.0], 'XXLarge': [4.4, 1100.0]}], 
         'M1': ['Mountain', 'Fine, Shock absorber.', ['Brown', 'Black'], {'Large': [4.0, 500.0], 'XXLarge': [4.4, 550.0]}], 
         'City 100': ['City', 'Good, Stable.', ['Yellow', 'Green'], {'XLarge': [3.3, 550.0], 'Medium': [3.0, 500.0]}], 
         'C1': ['City', 'Fine, Stable.', ['Yellow', 'Green'], {'XLarge': [3.3, 275.0], 'Medium': [3.0, 250.0]}], 
-        'Highway 100': ['HighWay', 'Good, Lights, Stable. ', ['Blue', 'Red'], {'Small': [3.0, 2000.0], 'Large': [2.2, 2200.0]}]
+        'Highway 100': ['HighWay', 'Good, Lights, Stable. ', ['Blue', 'Red'], {'Small': [3.0, 2000.0], 'Large': [3.3, 2200.0]}]
         }
-    print models
+    Mentor - why doesn't this second option change the global var models. It seems it creates a local var models. any role? 
+    """
 
 def print_models(): 
     for model in models: 
