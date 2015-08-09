@@ -15,10 +15,23 @@ models = {}
 def make_model (): 
     model_name = add_model_name()
     catagory = choose_1_from_list("Catagories", catagories) 
-    description = raw_input ("  Description:  ")
-    color_selection = choose_selection_from_list ("Color Selection", optional_colors)
+    description = raw_input ("Description:\t")
+    print "Add color to color selection." 
+    color_selection = choose_selection_from_list ("Color Options", optional_colors)
     size_info = add_size_info(model_name, optional_sizes) # This includes size selection, and additional info for each size. 
     models[model_name]=[catagory, description, color_selection, size_info]
+
+def sample_model_liberary ():
+    models = {
+        'H1': ['HighWay', 'Fine, Lights, Stable.', ['Blue', 'Red'], {'Small': [3.0, 1000.0], 'Large': [3.3, 1100.0]}], 
+        'Mountain 100': ['Mountain', 'Good, Shock absorber. ', ['Brown', 'Black'], {'Large': [4.0, 1000.0], 'XXLarge': [4.4, 1100.0]}], 
+        'M1': ['Mountain', 'Fine, Shock absorber.', ['Brown', 'Black'], {'Large': [4.0, 500.0], 'XXLarge': [4.4, 550.0]}], 
+        'City 100': ['City', 'Good, Stable.', ['Yellow', 'Green'], {'XLarge': [3.3, 550.0], 'Medium': [3.0, 500.0]}], 
+        'C1': ['City', 'Fine, Stable.', ['Yellow', 'Green'], {'XLarge': [3.3, 275.0], 'Medium': [3.0, 250.0]}], 
+        'Highway 100': ['HighWay', 'Good, Lights, Stable. ', ['Blue', 'Red'], {'Small': [3.0, 2000.0], 'Large': [2.2, 2200.0]}]
+        }
+    print models
+    # mentor - printing models from within the function the models the models dict is a global var. It can be changed from within a function - correct?
 
 def print_models(): 
     for model in models: 
@@ -28,8 +41,9 @@ def print_models():
             print color, "\t",
         print 
         for size in models[model][3]:
-            print "SIZE: {}\t WEIGHT: {}\t COST: {}\t" .format(size, models[model][3][size][0], models[model][3][size][1])
+            print "SIZE: {}\t WEIGHT: {} Kg\t COST: {} US$" .format(size, models[model][3][size][0], models[model][3][size][1])
 
+"""
 def print_model(model): 
     print "MODEL NAME: {}\t CATAGORY: {}\t DESCRIPTION: {}".format(model, models[model][0], models[model][1])
     print "COLOR SELECTION: \t",
@@ -38,6 +52,7 @@ def print_model(model):
     print 
     for size in models[model][3]:
         print "SIZE: {}\t WEIGHT: {}\t COST: {}\t" .format(size, models[model][3][size][0], models[model][3][size][1])
+"""
 
 # The type of bike is determined by: model, size and color. 
 # Each bike should have a unique Serial. 
@@ -47,7 +62,7 @@ def print_model(model):
 bicycles = []
 count = 0
 class Bicycle ():
-    def __init__ (self, model, color, size):
+    def __init__ (self, model, color, size, count):
         self.serial = count
         count+=1
         bicycles.append([model, color, size])
@@ -57,24 +72,20 @@ def make_bicycles ():
     #Mentor - I would like to use the support file. but than I will have to send it the models dic, instead of simply using this dic. is there a solution?
     print "Choose a model from list of models:"
     print_models()   
-    choosen_model=raw_input("Type Model Name:   ")
+    choosen_model=raw_input("\nType Model Name:   ")
     while not(models.__contains__(choosen_model)): 
-        print "Model not recognized. Please type Name of Model from list."
-        choosen_model = raw_input("Type Model Name:     ")
-    print "Choosen MODEL:" 
-    print_model(choosen_model) # Lets try this
+        print "Model not recognized. Please type Name of Model from list of models."
+        choosen_model = raw_input("\nType Model Name:     ")
     print "Choose color from selection of colors for model", choosen_model, ":"
     color = choose_1_from_list("Selection of colors", models[choosen_model][2])
     size = choose_size(choosen_model, models[choosen_model][3])
-    print "How many Bicycles to manufacture of MODEL:", choosen_model, color, size, "?"
-    quantity = str_to_positive_int(raw_input("Type Quantity:     "))
+    print "How many Bicycles to manufacture of \tMODEL: \t{} \t COLOR: \t{} \tSIZE: \t{} \t?" .format (choosen_model, color, size)
+    quantity = str_to_positive_int(raw_input("Type Quantity\t"))
     while quantity > 10000: 
         print "You can only produce up to 10,000 units at a time."
         quantity = str_to_positive_int(raw_input("Type Quantity:     "))
     for i in range(quantity):        
-        Bicycle(choosen_model, color, size)
-    for color in models[choice][3]:
-        print color
+        Bicycle(choosen_model, color, size, count)
 
 """
 print "Lets start with creating our main database." 
@@ -142,23 +153,40 @@ class Customer ():
 """        
 
 def main (): 
-    print "Welcome to Bicycle Industry model. We will try to model the Bicycle industry."
-    print "Lets start with creating bicycle models." 
-    # Creating new models.  
-    i=1
-    while True: 
-        print "model number" , i ,":"
-        i+=1
-        make_model()
-        ans=str_to_bol(raw_input("Would you like to add another model?  yes/no  "))
-        if ans == False: 
-            break 
+    print "\nWelcome to Bicycle Industry model."
+    
+    print "\nLets start with creating bicycle models." 
+    # Creating new models. 2 options: Building models, or using prepared model liberary 
+    print "Choose option from list:"
+    print "\t1 - Lets create some models ! "
+    print "\t2 - Use sample model liberary. "
+    index0=str_to_int(raw_input("Choose an option by number:     "))
+    while not(index0==1 or index0==2): # Accepting only 1 or 2. 
+        index0=str_to_int(raw_input("Please type 1 or 2:\t"))
+    if index0==1:
+        i=1
+        while True: 
+            print "\nMODEL NUMBER" , i ,":"
+            i+=1
+            make_model()
+            ans=str_to_bol(raw_input("Would you like to add another model?  yes/no  "))
+            if ans == False: 
+                break
+    else:
+        sample_model_liberary()
+    print models
+    # Mentor - for sample model liberary. I print models in the end of sample_model_liberary function 
+    # and after the function. After the function the models dict is empty. 
+    # models is defined out of a function, and therefor, as far as I understand is a global var. Can't I change
+    # the value from within a function? 
     
     print "\nLets create some bicycles"
     while True: 
         make_bicycles()
-        ans=str_to_bol(raw_input("Would you like to add another model?  yes/no  "))
+        ans=str_to_bol(raw_input("\nWould you like to add another model?  yes/no  "))
         if ans == False: 
             break 
+    print bicycles
     
+    print "\nLets open some shops" 
 main ()

@@ -7,38 +7,46 @@ def str_to_bol(ans):
     else: 
         return False
         
-def str_to_float (ans):
+def str_to_positive_float (ans):
+    while True: 
+        # Get a float
+        try:
+            ans=float(ans)
+        except Exception, e:
+            # Whats the difference between e and Exception?"
+            while True: 
+                ans= raw_input("Please type in a number:\t")
+                try:
+                    ans=float(ans)
+                    break
+                except Exception, e:
+                    pass
+        # Get a non negative
+        if ans >=0:
+            break
+        else: 
+            ans= raw_input("Please type a non negative number:\t")
+    return ans
+
+def str_to_int (ans): 
     try:
-        ans=float(ans)
+        ans=int(ans)
     except Exception, e:
-        # Whats the difference between e and Exception?"
+        # Mentor - Whats the difference between e and Exception?"
         while True: 
-            ans= raw_input("Please type in a number:    ")
+            ans= raw_input("Please type a number:    ")
             try:
-                ans=float(ans)
+                ans=int(ans)
                 break
             except Exception, e:
                 pass
     return ans
 
-def str_to_positive_int (ans): 
-    while True: 
-        try:
-            ans=int(ans)
-        except Exception, e:
-            # Mentor - Whats the difference between e and Exception?"
-            while True: 
-                ans= raw_input("Please type a non negative number:    ")
-                try:
-                    ans=int(ans)
-                    break
-                except Exception, e:
-                    pass
-        if ans<0:
-            print "Please type a non negative number."
-        else:
-            break
-    return ans
+def str_to_positive_int (string_num):
+    int_num=str_to_int(string_num)
+    while int_num<0:
+        int_num = str_to_int(raw_input("Please type a non negative number:\t"))
+    return int_num
 
 """
 catagories = ["Mountain", "City", "HighWay"]
@@ -47,13 +55,15 @@ optional_colors = ["White", "Yellow", "Green", "Blue", "Red", "Brown", "Purple",
 """
 
 def choose_1_from_list (name_of_list, lst): 
-    print " ", name_of_list
+    print name_of_list
     for i in range(0,len(lst)):
-        print "   ", i+1, " - ", lst[i]
-    ans = str_to_positive_int(raw_input("  Choose one option by number:     "))
-    return lst[ans-1]
-
-
+        print "\t{}  -  {}".format(i+1,lst[i])
+    index = str_to_int(raw_input("Choose an option by number:     "))-1
+    # Mentor - I'm asking myself how to use these variables wisely. I want to make sure I understand correctly. index is not a global
+    # var, so there is no problem to use this name in many functions - is that correct? 
+    while not(0<=index<len(lst)):
+        index = str_to_int(raw_input("Please choose a valid option:     "))-1
+    return lst[index]
 
 def choose_selection_from_list (name_of_list, lst): 
     lst_to_return = []
@@ -61,24 +71,32 @@ def choose_selection_from_list (name_of_list, lst):
     # For convenience we will build list of indexs, and convert list of values at the end. 
     # There is a difference between the list indexes which are from 0 and the index for user which is from 1. 
     # We will use list index, and will convert to user index before output and after input. 
-    print " ", name_of_list
+    print name_of_list
     for i in range(0,len(lst)):
-        print "   ", i+1, " - ", lst[i]
-    index_lst.append(str_to_positive_int(raw_input("Choose an option by number:     "))-1)
-    while len(index_lst)<len(lst): # The while ends when user types 0 (index=-1) or when all options are chosen.  
+        print "\t{}  -  {}".format(i+1, lst[i])
+    index = str_to_int(raw_input("Choose an option by number:     "))-1
+    while (index >= len(lst) or index<0): # Index not in range . 
+        # 5 options. user enters 6 its an error. it will show as index=5. so if index>=len(lst) we have a problem. 
+        index = str_to_int(raw_input("Please choose a valid option:     "))-1
+    index_lst.append(index)
+    while len(index_lst)<len(lst): 
+        # Second selection onwards. The while ends when user types 0 (index=-1) or when all options are chosen.  
         print name_of_list
         for i in range(0,len(lst)):
             if i not in index_lst: 
-                print "  ", i+1, " - ", lst[i]
+                print "\t{}  -  {}".format(i+1, lst[i])
             else: 
-                print "  ", i+1, " - ", lst[i], "(Choosen)"
-        index = str_to_positive_int(raw_input("  Add an option by number, or 0 to continue:     "))-1
+                print "\t{}  -  {}  (Choosen)".format(i+1, lst[i])
+        print "\t0  -  Continue"
+        index = str_to_int(raw_input("Add an option by number:\t"))-1
+        while (index >= len(lst) or index<-1 or (index in index_lst)): # Index not in range or already chosen. 
+            if index in index_lst:
+                print "Please choose a new option:\t",
+            else: 
+                print "Please choose a valid option:\t", 
+            index = str_to_int(raw_input())-1
         if index == -1: 
             break
-        if index >= len(lst) or index<-1: # 5 options. user enters 6 its an error. it will show as index=5. so if index>=len(lst) we have a problem. 
-            print "  Please choose a valid option."
-        if index in index_lst:
-            print "  Please choose a new option." 
         else: 
             index_lst.append(index)
     index_lst.sort()
@@ -87,7 +105,7 @@ def choose_selection_from_list (name_of_list, lst):
     return lst_to_return
 
 def add_model_name (): 
-    name = raw_input ("  Model name:  ")
+    name = raw_input ("Model name:  ")
     while name == "":
         print "  Model name must have at least 1 character" 
         name = raw_input ("  Model name:  ")
@@ -128,15 +146,15 @@ def add_color_selection ():
     """
 
 def add_size_info (model_name, optional_sizes):
+    print "Add sizes to size selection."
     size_info={} # Dictionary to return in the end of function. The structure --> {size:[weight, cost],  ...} 
-    size_selection = choose_selection_from_list("Size Selection", optional_sizes) # Size selection for the specific model. 
+    size_selection = choose_selection_from_list("Optional Sizes", optional_sizes) # Size selection for the specific model. 
     for size in size_selection: 
         info=[] 
-        print model_name, size
-        info.append(str_to_float(raw_input("Enter weight:    ")))
-        info.append(str_to_float(raw_input("Enter cost:  ")))
+        print "\nMODEL:\t{}\tSIZE:\t{}".format(model_name, size)
+        info.append(str_to_positive_float(raw_input("Enter weight (Kg units):\t")))
+        info.append(str_to_positive_float(raw_input("Enter cost: (US $)\t")))
         size_info[size]=info
-    print size_info
     return size_info    
 
     """
@@ -158,11 +176,11 @@ def add_size_info (model_name, optional_sizes):
     """
     
 def choose_size (model, size_dic): 
-    print "  Selection of Sizes for model", model, ":"
+    print "Selection of Sizes for model", model, ":"
     for size in size_dic: 
-        print size, "     ", "Weight:", size_dic[size][0], "Cost:", size_dic[size][1]
-    choice = raw_input("Type Model Name:     ")
+        print "SIZE: \t{} \tWEIGHT: \t{} \tCOST: \t{}" .format (size, size_dic[size][0], size_dic[size][1])
+    choice = raw_input("Selected size:\t")
     while not(size_dic.__contains__(choice)): # choice not in size_dic: 
-        print "Please type valid Model from list."
-        choice = raw_input("Type Model Name:     ")
+        print "Please type a valid size from list."
+        choice = raw_input("Selected size:\t")
     return choice
