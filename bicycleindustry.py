@@ -31,7 +31,6 @@ def sample_model_liberary ():
         'Highway 100': ['HighWay', 'Good, Lights, Stable. ', ['Blue', 'Red'], {'Small': [3.0, 2000.0], 'Large': [2.2, 2200.0]}]
         }
     print models
-    # mentor - printing models from within the function the models the models dict is a global var. It can be changed from within a function - correct?
 
 def print_models(): 
     for model in models: 
