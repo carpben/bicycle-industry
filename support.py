@@ -54,16 +54,16 @@ optional_sizes = ["XSmall", "Small", "Medium", "Large", "XLarge", "XXLarge"]
 optional_colors = ["White", "Yellow", "Green", "Blue", "Red", "Brown", "Purple", "Gray", "Black"]
 """
 
-def choose_1_from_list (name_of_list, lst): 
-    print name_of_list
-    for i in range(0,len(lst)):
-        print "\t{}  -  {}".format(i+1,lst[i])
-    index = str_to_int(raw_input("Choose an option by number:     "))-1
-    # Mentor - I'm asking myself how to use these variables wisely. I want to make sure I understand correctly. index is not a global
-    # var, so there is no problem to use this name in many functions - is that correct? 
-    while not(0<=index<len(lst)):
-        index = str_to_int(raw_input("Please choose a valid option:     "))-1
-    return lst[index]
+def choose_one_from_list(l): 
+    for index, item in enumerate(l):
+        print "\t{} - {}".format(index + 1, item)
+
+    while True:
+        index = str_to_int(raw_input("Choose an option by number:     ")) - 1
+        if index >= 0 and index < len(l):
+            break
+        print("Invalid option.  Please try again")
+    return index
 
 def choose_selection_from_list (name_of_list, lst): 
     lst_to_return = []

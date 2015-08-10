@@ -1,18 +1,29 @@
-from support import *
+from support import choose_one_from_list
 
 CATEGORIES = ["Mountain", "City", "HighWay"]
 SIZES = ["XSmall", "Small", "Medium", "Large", "XLarge", "XXLarge"]
 COLORS = ["White", "Yellow", "Green", "Blue", "Red", "Brown", "Purple", "Gray", "Black"]
-test0 = []
 
-# Main database - 
-# Main dictionary of Bicycle models. 
-# For each model user will have to add additional info: category (road or mountain) and description, color selection and size selection. 
-# For each size of model, user will ave to add additional info: weight and cost.
-# models = {model_name: [catagory(str), description (str), color_selection[list], size_selection{size:[weight, cost])   ...}  ...} 
-# Should I chose tuples or lists? 
+class Model(object):
+    def __init__(self, name, category, description, colors, sizes):
+        self.name = name
+        self.category = category
+        self.description = description
+        self.colors = colors
+        self.sizes = sizes
 
-models = {}
+    def log(self):
+        s = "\nMODEL NAME: {}\t CATEGORY: {}\t DESCRIPTION: {}"
+        print s.format(self.name, self.category, self.description)
+        print "COLOR SELECTION: \t",
+        for color in self.colors:
+            print color, "\t",
+        print ""
+        for size, details in self.sizes.iteritems():
+            s = "SIZE: {}\t WEIGHT: {} Kg\t COST: {} US$"
+            print s.format(size, details['weight'], details['price'])
+
+
 def make_model (): 
     model_name = add_model_name()
     catagory = choose_1_from_list("Catagories", CATEGORIES) 
@@ -22,28 +33,90 @@ def make_model ():
     size_info = add_size_info(model_name, SIZES) # This includes size selection, and additional info for each size. 
     models[model_name]=[catagory, description, color_selection, size_info]
 
-def sample_model_liberary ():
-    models ['H1'] = ['HighWay', 'Fine, Lights, Stable.', ['Blue', 'Red'], {'Small': [3.0, 1000.0], 'Large': [3.3, 1100.0]}]
-    models ['Mountain 100'] = ['Mountain', 'Good, Shock absorber. ', ['Brown', 'Black'], {'Large': [4.0, 1000.0], 'XXLarge': [4.4, 1100.0]}]
-    models ['M1'] = ['Mountain', 'Fine, Shock absorber.', ['Brown', 'Black'], {'Large': [4.0, 500.0], 'XXLarge': [4.4, 550.0]}]
-    models ['City 100'] = ['City', 'Good, Stable.', ['Yellow', 'Green'], {'XLarge': [3.3, 550.0], 'Medium': [3.0, 500.0]}]
-    models ['C1'] = ['City', 'Fine, Stable.', ['Yellow', 'Green'], {'XLarge': [3.3, 275.0], 'Medium': [3.0, 250.0]}]
-    models ['Highway 100'] = ['HighWay', 'Good, Lights, Stable. ', ['Blue', 'Red'], {'Small': [3.0, 2000.0], 'Large': [3.3, 2200.0]}]
-    """
-    models = {
-        'H1': ['HighWay', 'Fine, Lights, Stable.', ['Blue', 'Red'], {'Small': [3.0, 1000.0], 'Large': [3.3, 1100.0]}], 
-        'Mountain 100': ['Mountain', 'Good, Shock absorber. ', ['Brown', 'Black'], {'Large': [4.0, 1000.0], 'XXLarge': [4.4, 1100.0]}], 
-        'M1': ['Mountain', 'Fine, Shock absorber.', ['Brown', 'Black'], {'Large': [4.0, 500.0], 'XXLarge': [4.4, 550.0]}], 
-        'City 100': ['City', 'Good, Stable.', ['Yellow', 'Green'], {'XLarge': [3.3, 550.0], 'Medium': [3.0, 500.0]}], 
-        'C1': ['City', 'Fine, Stable.', ['Yellow', 'Green'], {'XLarge': [3.3, 275.0], 'Medium': [3.0, 250.0]}], 
-        'Highway 100': ['HighWay', 'Good, Lights, Stable. ', ['Blue', 'Red'], {'Small': [3.0, 2000.0], 'Large': [3.3, 2200.0]}]
+def sample_model_library ():
+    models = {}
+    models['H1'] = Model(
+        'H1',
+        'HighWay',
+        'Fine, Lights, Stable.',
+        ['Blue', 'Red'],
+        {
+            'Small': {
+                'weight': 3.0,
+                'price': 1000.0
+            },
+            'Large': {
+                'weight': 3.3,
+                'price': 1100.0
+            }
         }
-    Mentor - why doesn't this second option change the global var models. It seems it creates a local var models. any role? 
-    """
+    )
+
+    models['Mountain 100'] = Model(
+        'Mountain 100',
+        'Mountain',
+        'Good, Shock absorber.',
+        ['Brown', 'Black'],
+        {
+            'Large': {
+                'weight': 4.0,
+                'price': 1000.0
+            },
+            'XXLarge': {
+                'weight': 4.4,
+                'price': 1100.0
+            }
+        }
+    )
+
+    models['M1'] = Model(
+        'M1',
+        'Mountain',
+        'Fine, Shock absorber.',
+        ['Brown', 'Black'],
+        {
+            'Large': {'weight': 4.0, 'price': 500.0},
+            'XXLarge': {'weight': 4.4, 'price': 550.0}
+        }
+    )
+
+    models['City 100'] = Model(
+        'City 100',
+        'City',
+        'Good, Stable.',
+        ['Yellow', 'Green'],
+        {
+            'XLarge': {'weight': 3.3, 'price': 550.0},
+            'Medium': {'weight': 3.0, 'price': 500.0}
+        }
+    )
+
+    models['C1'] = Model(
+        'C1',
+        'City',
+        'Fine, Stable.',
+        ['Yellow', 'Green'],
+        {
+            'XLarge': {'weight': 3.3, 'price': 275.0},
+            'Medium': {'weight': 3.0, 'price': 250.0}
+        }
+    )
+
+    models['Highway 100'] = Model(
+        'Highway 100',
+        'HighWay',
+        'Good, Lights, Stable.',
+        ['Blue', 'Red'],
+        {
+            'Small': {'weight': 3.0, 'price': 2000.0},
+            'Large': {'weight': 3.3, 'price': 2200.0}
+        }
+    )
+    return models
 
 def print_models(): 
     for model in models: 
-        print "\nMODEL NAME: {}\t CATAGORY: {}\t DESCRIPTION: {}".format(model, models[model][0], models[model][1])
+        print "\nMODEL NAME: {}\t CATEGORY: {}\t DESCRIPTION: {}".format(model, models[model][0], models[model][1])
         print "COLOR SELECTION: \t",
         for color in models[model][2]:
             print color, "\t",
@@ -95,75 +168,25 @@ def make_bicycles ():
     for i in range(quantity):        
         Bicycle(choosen_model, color, size, count)
 
-"""
-print "Lets start with creating our main database." 
-# Creating new models.  
-While True: 
-    model
-    #Info for each type. 
-
-# Each bike has a unique serial. 
-# users can find type of bike by serial.
-# Creating bikes
-# user can create bike by type. 
-# creating bike creates a bike with a unique ID. 
-
-# Shops 
-# Every shop will have inventory by serials, 
-
-
-and users can own bikes by serials. 
-
-function sellRequest (model, size, color):
-    look for requested bike in inventory. if exist: 1)return to shop approval, and details of bike, 2) reduce bike from inventory. if not, return refusal and send inventory.
-
-# Bicycle
-count = 0
-class Bicycle ():
-    def __init__ (self, modelName, size, color):
-        self.serial = count
-        count ++ 
-        # modelName, size and color can only be of a certain kind, mentioned in company's database.  
-        if modelName in model dictionary: 
-            self.modelName = modelName
-        else: provide model list and request user to chose. 
-        #same proceedure with size and color. 
-        self.size = size
-        self.color = color
-        add entry to inventory
-        
-class Shop ():    
-    sellMargin=0.2
-    inventory = {serial:[model, size, color, weight, cost]    ......}
-    def __init__ (self, name):
-        self.name =name
-    def buyBike (self, modelName, size, color):
-        #We will request sell from company
-        sellRequest(modelName, size, color)
-        if approved add bike to inventory
-        if not present to user companys inventory and allow user to choose a different bike. 
-        call sellRequest fun again with the new requested bike. 
-    profitPerModelDic = {model:profit .......}  
-    function sellRequest (model, size, color):
-    look for requested bike in inventory. if exist: 1)return to customer approval, and details of bike, 2) reduce bike from inventory, and update profit dictionary. if not, return refusal and send inventory.
-        
-    
-class Customer ():
-        def __init__ (self, name, fund):
-        self.name = name
-        self.fund = fund
-        own = {}
-        def buy (modelName, size, color):
-            #We will request sell from shop
-            shop.sellRequest (modelName, size, color)
-            if not present to user shop's inventory and allow user to choose a different bike. 
-            call sellRequest fun again with the new requested bike. 
-"""        
-
-def main (): 
+def print_intro():
     print "\nWelcome to Bicycle Industry model."
     print "\nLets start with creating bicycle models." 
-    # Creating new models. 2 options: Building models, or using prepared model liberary 
+
+def main(): 
+    print_intro()
+
+    choice = choose_one_from_list(["Let's create some models!",
+                                   "Use sample model library"])
+    if choice == 0:
+        models = make_models()
+    elif choice == 1:
+        models = sample_model_library()
+
+    for name, model in models.iteritems():
+        model.log()
+
+    """
+
     print "Choose option from list:"
     print "\t1 - Lets create some models ! "
     print "\t2 - Use sample model liberary. "
@@ -196,4 +219,7 @@ def main ():
     print bicycles
     
     print "\nLets open some shops" 
-main ()
+    """
+
+if __name__ == "__main__":
+    main()
