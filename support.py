@@ -71,12 +71,3 @@ def choose_many_from_list(l):
 
     return choices
 
-def choose_size (model, size_dic): 
-    print "Selection of Sizes for model", model, ":"
-    for size in size_dic: 
-        print "SIZE: \t{} \tWEIGHT: \t{} \tCOST: \t{}" .format (size, size_dic[size][0], size_dic[size][1])
-    choice = raw_input("Selected size:\t")
-    while not(size_dic.__contains__(choice)): # choice not in size_dic: 
-        print "Please type a valid size from list."
-        choice = raw_input("Selected size:\t")
-    return choice
