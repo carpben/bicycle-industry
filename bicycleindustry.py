@@ -114,27 +114,6 @@ def sample_model_library ():
     )
     return models
 
-def print_models(): 
-    for model in models: 
-        print "\nMODEL NAME: {}\t CATEGORY: {}\t DESCRIPTION: {}".format(model, models[model][0], models[model][1])
-        print "COLOR SELECTION: \t",
-        for color in models[model][2]:
-            print color, "\t",
-        print 
-        for size in models[model][3]:
-            print "SIZE: {}\t WEIGHT: {} Kg\t COST: {} US$" .format(size, models[model][3][size][0], models[model][3][size][1])
-
-"""
-def print_model(model): 
-    print "MODEL NAME: {}\t CATAGORY: {}\t DESCRIPTION: {}".format(model, models[model][0], models[model][1])
-    print "COLOR SELECTION: \t",
-    for color in models[model][2]:
-        print color, "\t",
-    print 
-    for size in models[model][3]:
-        print "SIZE: {}\t WEIGHT: {}\t COST: {}\t" .format(size, models[model][3][size][0], models[model][3][size][1])
-"""
-
 # The type of bike is determined by: model, size and color. 
 # Each bike should have a unique Serial. 
 # bicycles = {serial: [model, color, size]  ...} actually better: 
