@@ -1,8 +1,8 @@
 from support import *
 
-catagories = ["Mountain", "City", "HighWay"]
-optional_sizes = ["XSmall", "Small", "Medium", "Large", "XLarge", "XXLarge"]
-optional_colors = ["White", "Yellow", "Green", "Blue", "Red", "Brown", "Purple", "Gray", "Black"]
+CATEGORIES = ["Mountain", "City", "HighWay"]
+SIZES = ["XSmall", "Small", "Medium", "Large", "XLarge", "XXLarge"]
+COLORS = ["White", "Yellow", "Green", "Blue", "Red", "Brown", "Purple", "Gray", "Black"]
 test0 = []
 
 # Main database - 
@@ -15,11 +15,11 @@ test0 = []
 models = {}
 def make_model (): 
     model_name = add_model_name()
-    catagory = choose_1_from_list("Catagories", catagories) 
+    catagory = choose_1_from_list("Catagories", CATEGORIES) 
     description = raw_input ("Description:\t")
     print "Add color to color selection." 
-    color_selection = choose_selection_from_list ("Color Options", optional_colors)
-    size_info = add_size_info(model_name, optional_sizes) # This includes size selection, and additional info for each size. 
+    color_selection = choose_selection_from_list ("Color Options", COLORS)
+    size_info = add_size_info(model_name, SIZES) # This includes size selection, and additional info for each size. 
     models[model_name]=[catagory, description, color_selection, size_info]
 
 def sample_model_liberary ():
@@ -162,7 +162,6 @@ class Customer ():
 
 def main (): 
     print "\nWelcome to Bicycle Industry model."
-    
     print "\nLets start with creating bicycle models." 
     # Creating new models. 2 options: Building models, or using prepared model liberary 
     print "Choose option from list:"
