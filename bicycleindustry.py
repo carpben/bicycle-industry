@@ -1,4 +1,5 @@
-from support import choose_one_from_list
+from support import choose_yes_no, choose_one_from_list, choose_many_from_list
+from support import text_input, positive_int_input
 
 CATEGORIES = ["Mountain", "City", "HighWay"]
 SIZES = ["XSmall", "Small", "Medium", "Large", "XLarge", "XXLarge"]
@@ -23,15 +24,39 @@ class Model(object):
             s = "SIZE: {}\t WEIGHT: {} Kg\t COST: {} US$"
             print s.format(size, details['weight'], details['price'])
 
+def make_models():
+    models = {}
+    another = True
+    while another:
+        model = make_model()
+        models[model.name] = model
+        print("Would you like to add another model?")
+        another = choose_yes_no()
+    return models
 
-def make_model (): 
-    model_name = add_model_name()
-    catagory = choose_1_from_list("Catagories", CATEGORIES) 
-    description = raw_input ("Description:\t")
-    print "Add color to color selection." 
-    color_selection = choose_selection_from_list ("Color Options", COLORS)
-    size_info = add_size_info(model_name, SIZES) # This includes size selection, and additional info for each size. 
-    models[model_name]=[catagory, description, color_selection, size_info]
+def make_model():
+    name = text_input("Model name: ")
+
+    print "Choose a category:"
+    _, category = choose_one_from_list(CATEGORIES)
+
+    description = text_input("Description: ", True)
+
+    print "Add color options:"
+    colors = choose_many_from_list(COLORS)
+    colors = [x for _, x in colors]
+
+    print "Add size options:"
+    # This includes size selection, and additional info for each size
+    sizes = choose_many_from_list(SIZES)
+    sizes = {x: {} for _, x in sizes}
+
+    for size, details in sizes.iteritems():
+        print "\nMODEL:\t{}\tSIZE:\t{}".format(name, size)
+        details['weight'] = positive_int_input("Enter weight (Kg): ")
+        details['price'] = positive_int_input("Enter cost (US $): ")
+
+    return Model(name, category, description, colors, sizes)
 
 def sample_model_library ():
     models = {}
@@ -114,11 +139,6 @@ def sample_model_library ():
     )
     return models
 
-# The type of bike is determined by: model, size and color. 
-# Each bike should have a unique Serial. 
-# bicycles = {serial: [model, color, size]  ...} actually better: 
-# bicycles = [[model, color, sizes],  ...]     since the serial are from 0 onwards, the serial is the place of bike in bicycles. 
-
 bicycles = []
 count = 0
 class Bicycle ():
@@ -154,8 +174,8 @@ def print_intro():
 def main(): 
     print_intro()
 
-    choice = choose_one_from_list(["Let's create some models!",
-                                   "Use sample model library"])
+    choice, _ = choose_one_from_list(["Let's create some models!",
+                                      "Use sample model library"])
     if choice == 0:
         models = make_models()
     elif choice == 1:
